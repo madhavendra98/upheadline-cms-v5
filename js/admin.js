@@ -309,3 +309,175 @@ card.style.display="none";
 });
 
 }
+// ======================
+// Save Breaking News
+// ======================
+
+window.saveBreakingNews = async function () {
+
+    const text = document
+        .getElementById("breakingNews")
+        .value
+        .trim();
+
+    if (!text) {
+
+        alert("Breaking News लिखें");
+
+        return;
+
+    }
+
+    await set(ref(db, "settings"), {
+
+        breakingNews: text
+
+    });
+
+    alert("✅ Breaking News Saved");
+
+};
+
+// ======================
+// Load Breaking News
+// ======================
+
+const breakingInput =
+document.getElementById("breakingNews");
+
+if (breakingInput) {
+
+    onValue(ref(db, "settings"), (snapshot) => {
+
+        if (!snapshot.exists()) return;
+
+        const data = snapshot.val();
+
+        if (data.breakingNews) {
+
+            breakingInput.value =
+            data.breakingNews;
+
+        }
+
+    });
+
+}
+
+// ======================
+// Dashboard Live Counter
+// ======================
+
+onValue(ref(db,"news"),(snapshot)=>{
+
+if(!snapshot.exists()) return;
+
+const news=Object.values(snapshot.val());
+
+document.getElementById("totalNews").innerText=news.length;
+
+document.getElementById("featuredNews").innerText=
+
+news.filter(n=>n.featured).length;
+
+document.getElementById("breakingCount").innerText=
+
+news.filter(n=>n.breaking).length;
+
+});
+
+// ======================
+// Total Images Counter
+// ======================
+
+const imageCounter=document.getElementById("totalImages");
+
+if(imageCounter){
+
+onValue(ref(db,"news"),(snapshot)=>{
+
+if(!snapshot.exists()){
+
+imageCounter.innerText=0;
+
+return;
+
+}
+
+const news=Object.values(snapshot.val());
+
+imageCounter.innerText=
+
+news.filter(n=>n.image).length;
+
+});
+
+}
+
+// ======================
+// Auto Image Preview
+// ======================
+
+const imageFile=document.getElementById("imageFile");
+
+if(imageFile){
+
+imageFile.addEventListener("change",function(e){
+
+const file=e.target.files[0];
+
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(ev){
+
+const preview=document.getElementById("preview");
+
+if(preview){
+
+preview.src=ev.target.result;
+
+preview.style.display="block";
+
+}
+
+}
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+// ======================
+// Clear Form
+// ======================
+
+window.clearForm=function(){
+
+document.getElementById("title").value="";
+
+document.getElementById("reporter").value="";
+
+document.getElementById("caption").value="";
+
+document.getElementById("seoTitle").value="";
+
+document.getElementById("seoDescription").value="";
+
+document.getElementById("tags").value="";
+
+document.getElementById("featured").checked=false;
+
+document.getElementById("breaking").checked=false;
+
+document.getElementById("imageFile").value="";
+
+window.quill.setContents([]);
+
+}
+
+// ======================
+
+console.log("✅ UPHeadline CMS V5 Loaded Successfully");
