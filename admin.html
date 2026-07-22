@@ -1,1 +1,412 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>UPHeadline CMS V5</title>
+
+<link rel="stylesheet" href="css/admin.css">
+
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.6.0/fonts/remixicon.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+
+<img src="images/logo.png">
+
+<h2>UPHeadline</h2>
+
+</div>
+
+<ul>
+
+<li class="active">
+
+<i class="ri-dashboard-fill"></i>
+
+Dashboard
+
+</li>
+
+<li>
+
+<i class="ri-article-fill"></i>
+
+Publish News
+
+</li>
+
+<li>
+
+<i class="ri-file-list-3-fill"></i>
+
+All News
+
+</li>
+
+<li>
+
+<i class="ri-fire-fill"></i>
+
+Breaking News
+
+</li>
+
+<li>
+
+<i class="ri-star-fill"></i>
+
+Featured
+
+</li>
+
+<li>
+
+<i class="ri-folder-image-fill"></i>
+
+Media Library
+
+</li>
+
+<li>
+
+<i class="ri-settings-4-fill"></i>
+
+Settings
+
+</li>
+
+<li>
+
+<i class="ri-logout-box-fill"></i>
+
+Logout
+
+</li>
+
+</ul>
+
+</div>
+
+<div class="main">
+
+<header>
+
+<h1>
+
+Dashboard
+
+</h1>
+
+<div class="admin">
+
+Administrator
+
+</div>
+
+</header>
+
+<div class="cards">
+
+<div class="card">
+
+<h2 id="totalNews">
+
+0
+
+</h2>
+
+<p>Total News</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="breakingCount">
+
+0
+
+</h2>
+
+<p>Breaking</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="featuredNews">
+
+0
+
+</h2>
+
+<p>Featured</p>
+
+</div>
+
+<div class="card">
+
+<h2 id="totalViews">
+
+0
+
+</h2>
+
+<p>Views</p>
+
+</div>
+
+</div>
+
+<section class="publish-box">
+
+<h2>
+
+Publish News
+
+</h2>
+<!-- Publish Form -->
+
+<div class="form-group">
+
+<label>📰 News Title</label>
+
+<input
+type="text"
+id="title"
+placeholder="Enter News Title">
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+
+<label>📂 Category</label>
+
+<select id="category">
+
+<option>UP News</option>
+<option>India</option>
+<option>World</option>
+<option>Politics</option>
+<option>Business</option>
+<option>Sports</option>
+<option>Technology</option>
+<option>Entertainment</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>👤 Reporter</label>
+
+<input
+type="text"
+id="reporter"
+placeholder="Reporter Name">
+
+</div>
+
+</div>
+
+
+<div class="row">
+
+<div class="form-group">
+
+<label>📷 Upload Image</label>
+
+<input
+type="file"
+id="imageFile"
+accept="image/*">
+
+<img
+id="preview"
+class="preview">
+
+</div>
+
+<div class="form-group">
+
+<label>📸 Photo Caption</label>
+
+<input
+type="text"
+id="caption"
+placeholder="Photo Caption">
+
+</div>
+
+</div>
+
+
+<label>
+
+📝 News Description
+
+</label>
+
+<div id="editor"></div>
+
+<br>
+
+<div class="row">
+
+<label>
+
+<input
+type="checkbox"
+id="featured">
+
+Featured News
+
+</label>
+
+<label>
+
+<input
+type="checkbox"
+id="breaking">
+
+Breaking News
+
+</label>
+
+</div>
+
+<br>
+
+<div class="form-group">
+
+<label>
+
+SEO Title
+
+</label>
+
+<input
+type="text"
+id="seoTitle">
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+SEO Description
+
+</label>
+
+<textarea
+id="seoDescription"
+rows="4"></textarea>
+
+</div>
+
+<div class="form-group">
+
+<label>
+
+Tags
+
+</label>
+
+<input
+type="text"
+id="tags"
+placeholder="news, politics, up">
+
+</div>
+
+<button
+class="publish-btn"
+onclick="publishNews()">
+
+🚀 Publish News
+
+</button>
+
+<hr>
+
+<h2>
+
+Published News
+
+</h2>
+
+<div id="newsList"></div>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+<script>
+
+window.quill = new Quill('#editor',{
+
+theme:'snow',
+
+modules:{
+
+toolbar:[
+
+[{header:[1,2,3,false]}],
+
+['bold','italic','underline'],
+
+[{color:[]},{background:[]}],
+
+[{list:'ordered'},{list:'bullet'}],
+
+['blockquote'],
+
+['link','image'],
+
+['clean']
+
+]
+
+}
+
+});
+
+document.getElementById("imageFile").addEventListener("change",function(e){
+
+const file=e.target.files[0];
+
+if(!file) return;
+
+const reader=new FileReader();
+
+reader.onload=function(ev){
+
+document.getElementById("preview").src=ev.target.result;
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+</script>
+
+<script type="module" src="js/admin.js"></script>
+
+</section>
+
+</div>
+
+</body>
+</html>
