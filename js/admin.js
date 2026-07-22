@@ -145,3 +145,167 @@ window.publishNews = async function () {
     location.reload();
 
 };
+// ======================
+// Show Published News
+// ======================
+
+const newsList = document.getElementById("newsList");
+
+onValue(ref(db, "news"), (snapshot) => {
+
+    if (!newsList) return;
+
+    newsList.innerHTML = "";
+
+    if (!snapshot.exists()) {
+
+        newsList.innerHTML = `
+        <div class="news-card">
+            <h3>No News Published</h3>
+        </div>`;
+        return;
+    }
+
+    const data = snapshot.val();
+
+    Object.entries(data).reverse().forEach(([id, news]) => {
+
+        newsList.innerHTML += `
+
+<div class="news-card">
+
+<img src="${news.image}" alt="">
+
+<div class="news-content">
+
+<span style="color:red;font-weight:bold">
+${news.category}
+</span>
+
+<h3>${news.title}</h3>
+
+<p>
+
+👤 ${news.reporter || "UPHeadline"}
+
+</p>
+
+<p>
+
+📸 ${news.caption || ""}
+
+</p>
+
+<p>
+
+${news.description.replace(/<[^>]*>/g,"").substring(0,180)}...
+
+</p>
+
+<button onclick="editNews('${id}')">
+
+✏ Edit
+
+</button>
+
+<button
+onclick="deleteNews('${id}')"
+style="background:#d32f2f">
+
+🗑 Delete
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+    });
+
+});
+
+// ======================
+// Delete News
+// ======================
+
+import {
+remove,
+update
+}
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+window.deleteNews = async function(id){
+
+if(!confirm("Delete this news?"))
+
+return;
+
+await remove(ref(db,"news/"+id));
+
+alert("Deleted Successfully");
+
+}
+
+// ======================
+// Edit News
+// ======================
+
+window.editNews = async function(id){
+
+const title=prompt("News Title");
+
+if(title==null) return;
+
+const reporter=prompt("Reporter");
+
+if(reporter==null) return;
+
+const caption=prompt("Photo Caption");
+
+if(caption==null) return;
+
+await update(ref(db,"news/"+id),{
+
+title,
+
+reporter,
+
+caption
+
+});
+
+alert("Updated");
+
+}
+
+// ======================
+// Search News
+// ======================
+
+window.searchNews=function(){
+
+const keyword=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+const cards=document
+.querySelectorAll(".news-card");
+
+cards.forEach(card=>{
+
+if(card.innerText
+.toLowerCase()
+.includes(keyword))
+
+card.style.display="block";
+
+else
+
+card.style.display="none";
+
+});
+
+}
