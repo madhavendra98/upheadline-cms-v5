@@ -1,3 +1,43 @@
+import { auth } from "./firebase-config.js";
+
+import {
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+// =========================
+// Admin Protection
+// =========================
+
+onAuthStateChanged(auth, (user) => {
+
+    if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+
+    }
+
+    console.log("✅ Logged In:", user.email);
+
+});
+
+// =========================
+// Logout
+// =========================
+
+window.logout = async function () {
+
+    if (confirm("क्या आप Logout करना चाहते हैं?")) {
+
+        await signOut(auth);
+
+        window.location.href = "login.html";
+
+    }
+
+};
 import { db } from "./firebase-config.js";
 
 import {
