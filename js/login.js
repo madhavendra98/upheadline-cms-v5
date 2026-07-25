@@ -1,47 +1,43 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { auth } from "./firebase-config.js";
 
 import {
-
-getAuth,
-signInWithEmailAndPassword,
-onAuthStateChanged
-
+  signInWithEmailAndPassword,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-import { firebaseConfig } from "./firebase-config.js";
+// Login
+window.login = async function () {
 
-const app=initializeApp(firebaseConfig);
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-const auth=getAuth(app);
+    if (!email || !password) {
+        document.getElementById("msg").innerHTML =
+        "Email और Password भरें";
+        return;
+    }
 
-window.login=function(){
+    try {
 
-const email=document.getElementById("email").value;
+        await signInWithEmailAndPassword(auth, email, password);
 
-const password=document.getElementById("password").value;
+        window.location.href = "admin.html";
 
-signInWithEmailAndPassword(auth,email,password)
+    } catch (error) {
 
-.then(()=>{
+        document.getElementById("msg").innerHTML = error.message;
 
-location.href="admin.html";
+    }
 
-})
+};
 
-.catch(()=>{
+// Check Login
+onAuthStateChanged(auth, (user) => {
 
-document.getElementById("msg").innerHTML="Invalid Email or Password";
+    if (user) {
 
-});
+        console.log("Login Success:", user.email);
 
-}
-
-onAuthStateChanged(auth,(user)=>{
-
-if(user){
-
-console.log("Logged In");
-
-}
+    }
 
 });
