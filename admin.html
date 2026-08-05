@@ -23,9 +23,10 @@
 
 <img src="images/logo.png">
 
-<h2>UPHeadline</h2>
+<h2>UPHeadline CMS</h2>
 
 </div>
+
 <ul>
 
 <li class="active" id="menu-dashboard">
@@ -34,7 +35,7 @@
 </li>
 
 <li id="menu-publish">
-<i class="ri-file-add-fill"></i>
+<i class="ri-add-circle-fill"></i>
 <span>Publish News</span>
 </li>
 
@@ -50,7 +51,7 @@
 
 <li id="menu-featured">
 <i class="ri-star-fill"></i>
-<span>Featured</span>
+<span>Featured News</span>
 </li>
 
 <li id="menu-media">
@@ -64,76 +65,10 @@
 </li>
 
 <li onclick="logout()">
-<i class="ri-logout-box-fill"></i>
+<i class="ri-logout-box-r-fill"></i>
 <span>Logout</span>
 </li>
 
-</ul>
-<ul>
-
-<li class="active">
-
-<i class="ri-dashboard-fill"></i>
-
-Dashboard
-
-</li>
-
-<li>
-
-<i class="ri-file-list-3-fill"></i>
-
-Publish News
-
-</li>
-
-<li>
-
-<i class="ri-file-list-3-fill"></i>
-
-All News
-
-</li>
-
-<li>
-
-<i class="ri-fire-fill"></i>
-
-Breaking News
-
-</li>
-
-<li>
-
-<i class="ri-star-fill"></i>
-
-Featured
-
-</li>
-
-<li>
-
-<i class="ri-folder-image-fill"></i>
-
-Media Library
-
-</li>
-
-<li>
-
-<i class="ri-settings-4-fill"></i>
-
-Settings
-
-</li>
-
-<li onclick="logout()">
-
-<i class="ri-logout-box-fill"></i>
-
-Logout
-
-</li>
 </ul>
 
 </div>
@@ -142,17 +77,25 @@ Logout
 
 <header>
 
+<div>
+
 <h1>Dashboard</h1>
 
-<div class="admin">
+<p>Welcome to UPHeadline CMS V5</p>
 
+</div>
+
+<div class="admin-info">
+
+<i class="ri-admin-fill"></i>
+
+<span id="adminEmail">
 Administrator
+</span>
 
 </div>
 
 </header>
-
-<!-- DASHBOARD -->
 
 <div class="dashboard-grid">
 
@@ -160,23 +103,23 @@ Administrator
 
 <h2 id="totalNews">0</h2>
 
-<p>📰 Total News</p>
+<p>Total News</p>
 
 </div>
 
 <div class="dash-card blue">
 
-<h2 id="featuredNews">0</h2>
+<h2 id="breakingCount">0</h2>
 
-<p>⭐ Featured News</p>
+<p>Breaking News</p>
 
 </div>
 
 <div class="dash-card green">
 
-<h2 id="breakingCount">0</h2>
+<h2 id="featuredNews">0</h2>
 
-<p>🔥 Breaking News</p>
+<p>Featured News</p>
 
 </div>
 
@@ -184,41 +127,29 @@ Administrator
 
 <h2 id="categoryCount">0</h2>
 
-<p>📂 Categories</p>
+<p>Categories</p>
 
 </div>
 
 </div>
+<!-- ========================= -->
+<!-- Publish News Section -->
+<!-- ========================= -->
 
 <section class="publish-box">
 
-<h2>
-
-Publish News
-
-</h2>
-<!-- Publish Form -->
+<h2>📰 Publish News</h2>
 
 <div class="form-group">
-
-<label>📰 News Title</label>
-
-<input
-type="text"
-id="title"
-placeholder="Enter News Title">
-
+<label>News Title</label>
+<input type="text" id="title" placeholder="Enter News Title">
 </div>
-
 
 <div class="row">
 
 <div class="form-group">
-
-<label>📂 Category</label>
-
+<label>Category</label>
 <select id="category">
-
 <option>UP News</option>
 <option>India</option>
 <option>World</option>
@@ -227,65 +158,43 @@ placeholder="Enter News Title">
 <option>Sports</option>
 <option>Technology</option>
 <option>Entertainment</option>
-
 </select>
-
 </div>
 
 <div class="form-group">
-
-<label>👤 Reporter</label>
-
-<input
-type="text"
-id="reporter"
-placeholder="Reporter Name">
-
+<label>Reporter Name</label>
+<input type="text" id="reporter" placeholder="Reporter Name">
 </div>
 
 </div>
-
 
 <div class="row">
 
 <div class="form-group">
-
-<label>📷 Upload Image</label>
-
+<label>Upload Image</label>
 <input
 type="file"
 id="imageFile"
 accept="image/*">
 
-<img
-id="preview"
-class="preview">
-
+<img id="preview" class="preview">
 </div>
 
 <div class="form-group">
-
-<label>📸 Photo Caption</label>
-
+<label>Photo Caption</label>
 <input
 type="text"
 id="caption"
 placeholder="Photo Caption">
-
 </div>
 
 </div>
 
-
-<label>
-
-📝 News Description
-
-</label>
+<div class="form-group">
+<label>News Description</label>
 
 <div id="editor"></div>
-
-<br>
+</div>
 
 <div class="row">
 
@@ -295,7 +204,7 @@ placeholder="Photo Caption">
 type="checkbox"
 id="featured">
 
-Featured News
+⭐ Featured News
 
 </label>
 
@@ -305,49 +214,37 @@ Featured News
 type="checkbox"
 id="breaking">
 
-Breaking News
+🔥 Breaking News
 
 </label>
 
 </div>
 
-<br>
-
 <div class="form-group">
 
-<label>
-
-SEO Title
-
-</label>
+<label>SEO Title</label>
 
 <input
 type="text"
-id="seoTitle">
+id="seoTitle"
+placeholder="SEO Title">
 
 </div>
 
 <div class="form-group">
 
-<label>
-
-SEO Description
-
-</label>
+<label>SEO Description</label>
 
 <textarea
 id="seoDescription"
-rows="4"></textarea>
+rows="4"
+placeholder="SEO Description"></textarea>
 
 </div>
 
 <div class="form-group">
 
-<label>
-
-Tags
-
-</label>
+<label>Tags</label>
 
 <input
 type="text"
@@ -366,20 +263,32 @@ onclick="publishNews()">
 
 <hr>
 
-<h2>
+<h2>📰 Published News</h2>
 
-Published News
+<input
+type="text"
+id="search"
+placeholder="🔍 Search News..."
+onkeyup="searchNews()">
 
-</h2>
+<br><br>
 
 <div id="newsList"></div>
+
+</section>
+<!-- ========================= -->
+<!-- Quill Editor -->
+<!-- ========================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 
 <script>
 
-window.quill = new Quill('#editor',{
+window.quill = new Quill("#editor",{
 
-theme:'snow',
+theme:"snow",
+
+placeholder:"Write your news here...",
 
 modules:{
 
@@ -387,17 +296,17 @@ toolbar:[
 
 [{header:[1,2,3,false]}],
 
-['bold','italic','underline'],
+["bold","italic","underline","strike"],
 
 [{color:[]},{background:[]}],
 
-[{list:'ordered'},{list:'bullet'}],
+[{list:"ordered"},{list:"bullet"}],
 
-['blockquote'],
+["blockquote","code-block"],
 
-['link','image'],
+["link","image"],
 
-['clean']
+["clean"]
 
 ]
 
@@ -405,7 +314,14 @@ toolbar:[
 
 });
 
-document.getElementById("imageFile").addEventListener("change",function(e){
+
+// Image Preview
+
+const imageInput=document.getElementById("imageFile");
+
+const preview=document.getElementById("preview");
+
+imageInput.addEventListener("change",function(e){
 
 const file=e.target.files[0];
 
@@ -413,11 +329,13 @@ if(!file) return;
 
 const reader=new FileReader();
 
-reader.onload=function(ev){
+reader.onload=function(event){
 
-document.getElementById("preview").src=ev.target.result;
+preview.src=event.target.result;
 
-};
+preview.style.display="block";
+
+}
 
 reader.readAsDataURL(file);
 
@@ -425,11 +343,12 @@ reader.readAsDataURL(file);
 
 </script>
 
-<script type="module" src="js/admin.js"></script>
+<!-- Firebase Admin JS -->
 
-</section>
+<script type="module" src="js/admin.js"></script>
 
 </div>
 
 </body>
+
 </html>
